@@ -4,7 +4,7 @@ HackingSystem 版本控制流程
  为了对项目进行合理的版本管理，使用Git控制版本，将项目托管到Github远程，使用交互更友好的SourceTree界面进行操作。
 ## 操作流程
  ### Git安装、创建SSH密匙/公匙、SourceTree安装
-  参照http://www.manew.com/blog-147764-44532.html的“一，二”部分进行操作。
+  参照http://www.manew.com/blog-147764-44532.html 的“一，二”部分进行操作。
  ### 项目克隆
   * 点击Clone
     * URL：https://github.com/litianyue0030/HackingSystem
