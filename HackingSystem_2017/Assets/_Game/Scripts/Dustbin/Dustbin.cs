@@ -5,10 +5,6 @@ namespace HackingSystem.Dustbin
 {
     public class Dustbin : EnemyAndResource
     {
-        public override RuntimeAnimatorController CurrentAnimatorController
-        {
-            get;  set;
-        }
 
         public override Vector3 Direction
         {
@@ -56,6 +52,14 @@ namespace HackingSystem.Dustbin
             }
         }
 
+        public override Animator Animator
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
         public override void HitAnimExecute()
         {
         }
@@ -78,7 +82,7 @@ namespace HackingSystem.Dustbin
     
     public class RuleAnimatorPhaseIn : ExecuteRule
     {
-        Animator a;
+        public Animator a;
         string name;
         int layer;
         public RuleAnimatorPhaseIn(string name, Animator a, int layer)
@@ -86,10 +90,15 @@ namespace HackingSystem.Dustbin
             this.a = a;
             this.name = name;
         }
+
+
+
         public override bool RuleExecute()
         {
             return a.GetCurrentAnimatorStateInfo(layer).IsName(name);
         }
+
+
     }
 
     public class MainWeaponDusbinTop : MainWeapon
@@ -104,6 +113,7 @@ namespace HackingSystem.Dustbin
             Model = Resources.Load<GameObject>("Dusbin/Dusbin_Top");
             RuleTimeOver t = new RuleTimeOver(10);
         }
+
         public MainWeaponDusbinTop():base()
         {
             List<Skill> binskills = new List<Skill>(4);//
@@ -123,8 +133,6 @@ namespace HackingSystem.Dustbin
         /// </summary>
         public override void initialization()
         {
-            CurAnimController = (RuntimeAnimatorController)Resources.Load("Dusbin/dustbinAnimController");
-            base.initialization();
             if (curModel != null)
             {
                 GameObject.Destroy(curModel);
@@ -141,7 +149,7 @@ namespace HackingSystem.Dustbin
                 //动画初始化
                 ((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
             }
-            a = Owner.transform.GetChild(1).GetComponent<Animator>();
+            a = Owner.Animator;
             foreach (var item in SkillSystem.skills)
             {
                 item.anim = a;
@@ -173,7 +181,7 @@ namespace HackingSystem.Dustbin
                     if (CombTime <=0)
                     {
                         //连击时间过了回到原状态
-                        a.SetTrigger("ComEnd");
+                        a.PlayInFixedTime("Stand");
                     }
                 }
                 else if (Control.MainWPAttackLPress())
@@ -217,7 +225,7 @@ namespace HackingSystem.Dustbin
         {
             RuleComplete = new RuleTrue();
             RuleEnd = new RuleAnimatorPhaseIn("Stand", a, a.GetLayerIndex("Normal"));
-            RuleCast = new RuleAnimatorPhaseIn("SheldAttackCom1", a, a.GetLayerIndex("Normal"));
+            RuleCast = new RuleAnimatorPhaseIn("Dusbin_MW_SheldAttackCom1", a, a.GetLayerIndex("Normal"));
         }
 
         public override void AfterComplete()
@@ -258,7 +266,7 @@ namespace HackingSystem.Dustbin
 
         public override void Enter()
         {
-            anim.SetTrigger("attack2");
+            anim.PlayInFixedTime("Dusbin_MW_SheldAttackCom2");
             movAttack = true;
             ownerRigid = owner.owner.Owner.GetComponent<Rigidbody>();
             Diration = owner.owner.Owner.Diration2;
@@ -400,7 +408,7 @@ namespace HackingSystem.Dustbin
 
         public override void Enter()
         {
-            anim.SetTrigger("attack1");
+            anim.PlayInFixedTime("Dusbin_MW_SheldAttackCom1");
             movAttack = true;
             spd = 5 * Input.GetAxis("Vertical");
             owner.owner.Owner.DirectionLock = true;
@@ -415,7 +423,6 @@ namespace HackingSystem.Dustbin
                 GameObject.Destroy(j);
                 j = null;
             }
-            Debug.Log("EndS1");
             owner.owner.Owner.DirectionLock = false;
             movAttack = false;
         }
@@ -454,7 +461,7 @@ namespace HackingSystem.Dustbin
 
         public void SetRule()
         {
-            RuleComplete = new RuleAnimatorPhaseIn("SheldMode", a, a.GetLayerIndex("Normal"));
+            RuleComplete = new RuleAnimatorPhaseIn("Dusbin_MW_SheldMode", a, a.GetLayerIndex("Normal"));
             RuleEnd = new RuleMouseRightUnPress();
             RuleCast = new RuleAnimatorPhaseIn("Stand", a, a.GetLayerIndex("Normal"));
         }
@@ -489,13 +496,13 @@ namespace HackingSystem.Dustbin
 
         public override void Enter()
         {
-            a.SetTrigger("SheldOpen");
+            a.PlayInFixedTime("Dusbin_MW_SheldMode_Prev");
             completed = false;
         }
 
         public override void Exit()
         {
-            a.SetTrigger("SheldEnd");
+            a.PlayInFixedTime("Dusbin_MW_SheldMode_End");
             if (completed)
             {
                 owner.owner.Owner.BattleSystem.OnBeingDamage -= Owner_OnBeingDamage;
@@ -521,8 +528,7 @@ namespace HackingSystem.Dustbin
         }
         public override void initialization()
         {
-            CurAnimController = (RuntimeAnimatorController)Resources.Load("Dusbin/DusbinAnimatorController_SW");
-            a = Owner.transform.GetChild(1).GetComponent<Animator>();
+            a = Owner.Animator;
             SkillSystem.skills = new List<Skill>();
             var v = new SkillThrowWP();
             SkillSystem.skills.Add(v);
@@ -609,13 +615,13 @@ namespace HackingSystem.Dustbin
 
         public override void Enter()
         {
-            owner.owner.Owner.ActiveWeapon = WeaponType.SubWeapon;
-            RuleEnd = new RuleAnimatorPhaseIn("Ex", ((SubWeaponDusbinTop)owner.owner).a, ((SubWeaponDusbinTop)owner.owner).a.GetLayerIndex("Base Layer"));
+            var a = owner.owner.Owner.Animator;
+            a.PlayInFixedTime("Dusbin_SW_ThrowWP");
+            RuleEnd = new RuleAnimatorPhaseIn("Stand", a, a.GetLayerIndex("Normal"));
         }
 
         public override void Exit()
         {
-            owner.owner.Owner.ActiveWeapon = WeaponType.MainWeapon;
         }
 
         public override void InActive()

@@ -348,48 +348,11 @@ namespace HackingSystem
             get { return battleSystem; }
         }
         public abstract void HitAnimExecute();
-
-        #region 被抛弃使用的旧代码
-        WeaponType activeWeapon = WeaponType.MainWeapon;
         
-        public abstract RuntimeAnimatorController CurrentAnimatorController
+        public abstract Animator Animator
         {
-            get; set;
+            get;
         }
-        public RuntimeAnimatorController botAnimator;
-        public WeaponType ActiveWeapon
-        {
-            get { return activeWeapon; }
-            set
-            {
-                activeWeapon = value;
-                switch (activeWeapon)
-                {
-                    case WeaponType.MainWeapon:
-                        if (weaponSystem.MainWeapon!=null)
-                        {
-                            CurrentAnimatorController = weaponSystem.MainWeapon.CurAnimController;
-                        }
-                        else
-                        {
-                            CurrentAnimatorController = botAnimator;
-                        }
-                        break;
-                    case WeaponType.SubWeapon:
-                        CurrentAnimatorController = weaponSystem.SubWeapon.CurAnimController;
-                        break;
-                    case WeaponType.CoreWeapon:
-                        CurrentAnimatorController = weaponSystem.CoreWeapon.CurAnimController;
-                        break;
-                    case WeaponType.BackWeapon:
-                        CurrentAnimatorController = weaponSystem.BackWeapon.CurAnimController;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        #endregion
 
         //Bag(item)
         Bag bag;

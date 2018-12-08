@@ -19,11 +19,12 @@ namespace HackingSystem
     /// <summary>
     /// 时间条件，经过一定时间之后满足条件
     /// </summary>
+    [CreateAssetMenu(fileName ="new RuleTimeOver",menuName = "Rules/RuleTimeOver", order = 0)]
     public class RuleTimeOver:ExecuteRule
     {
         float StartTime;//起始时间
         float timePause;//游戏暂停时间
-        public float TimeElapse { get; set; }//满足条件必须经过的时间
+        public float TimeElapse;//满足条件必须经过的时间
         /// <summary>
         /// 
         /// </summary>

@@ -33,6 +33,10 @@ namespace HackingSystem
             }
         }
 
+        public override void Enter()
+        {
+        }
+
         public override void Execute()
         {
             Vector3 di = m_Transform.eulerAngles;

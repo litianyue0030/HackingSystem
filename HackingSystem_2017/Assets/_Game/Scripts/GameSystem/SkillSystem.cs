@@ -7,6 +7,7 @@ namespace HackingSystem
 {
     public class SkillSystem
     {
+        const string AnimSkillNone="Stand";
         //技能列表
         public List<Skill> skills;
         

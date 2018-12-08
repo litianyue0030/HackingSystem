@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace HackingSystem {
     public abstract class Weapon{
-
-        public RuntimeAnimatorController CurAnimController;
+        
         public bool AnimActive;
 
         Bot owner;

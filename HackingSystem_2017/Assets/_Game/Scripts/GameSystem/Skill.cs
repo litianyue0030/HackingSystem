@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace HackingSystem
 {
-    public abstract class Skill
+    public abstract class Skill : ScriptableObject
     {
         public virtual Animator anim { get; set; }
 

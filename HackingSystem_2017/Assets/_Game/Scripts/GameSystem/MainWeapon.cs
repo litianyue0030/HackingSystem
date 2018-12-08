@@ -9,13 +9,6 @@ namespace HackingSystem
         {
             weaponType = WeaponType.MainWeapon;
         }
-
-        public override void initialization()
-        {
-            if (Owner.ActiveWeapon == WeaponType.MainWeapon)
-            {
-                Owner.CurrentAnimatorController = CurAnimController;
-            }
-        }
+        
     }
 }

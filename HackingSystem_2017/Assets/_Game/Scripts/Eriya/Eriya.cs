@@ -169,33 +169,6 @@ namespace HackingSystem.Eriya
         {
             throw new System.NotImplementedException();
         }
-        
-        public override RuntimeAnimatorController CurrentAnimatorController
-        {
-            get
-            {
-                if (eriyaMode == EriyaMode.Bot)
-                {
-                    return transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
-                }
-                else
-                {
-                    return transform.GetChild(0).GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
-                }
-            }
-
-            set
-            {
-                if (eriyaMode == EriyaMode.Bot)
-                {
-                    transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = value;
-                }
-                else
-                {
-                    transform.GetChild(0).GetChild(0).GetComponent<Animator>().runtimeAnimatorController = value;
-                }
-            }
-        }
 
         public override bool OnAir
         {
@@ -212,6 +185,21 @@ namespace HackingSystem.Eriya
                     }
                 }
                 return true;
+            }
+        }
+
+        public override Animator Animator
+        {
+            get
+            {
+                if (eriyaMode == EriyaMode.Bot)
+                {
+                    return transform.GetChild(1).GetComponent<Animator>();
+                }
+                else
+                {
+                    return transform.GetChild(0).GetChild(0).GetComponent<Animator>();
+                }
             }
         }
     }

@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
 using System.Text;
+using UnityEditor;
+using UnityEngine;
+using System.IO;
+
 namespace HackingSystem
 {
     /// <summary>
     /// 行为基类
     /// </summary>
     /// <typeparam name="T">执行者类型</typeparam>
-    public class GameAction<T>
+    public class GameAction<T> : ScriptableObject
     {
         /// <summary>
         /// 行为参数字典
@@ -62,6 +66,7 @@ namespace HackingSystem
     /// 行为列表，按列表一个一个执行行为
     /// </summary>
     /// <typeparam name="T">执行者类型</typeparam>
+    [Serializable]
     public sealed class ActionList<T> : GameAction<T>
     {
         bool entered = false;
@@ -123,6 +128,8 @@ namespace HackingSystem
             base.Executor = executor;
         }
 
+        public ActionList()
+        {}
 
         public ActionListNode<T> AddAction_End(GameAction<T> action, ExecuteRule TransRule)
         {
@@ -308,11 +315,12 @@ namespace HackingSystem
         }
 
     }
+       
 
     /// <summary>
     /// 规则
     /// </summary>
-    public abstract class ExecuteRule
+    public abstract class ExecuteRule : ScriptableObject
     {
         /// <summary>
         /// 规则执行
@@ -324,7 +332,7 @@ namespace HackingSystem
         /// 规则参数重置
         /// </summary>
         public virtual void Reset() { }
-
+        
         public static implicit operator bool(ExecuteRule r)
         {
             return r.RuleExecute();

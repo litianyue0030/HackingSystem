@@ -26,6 +26,8 @@ namespace HackingSystem
             paused = true;
         }
 
+        public static Bot CurrentPlayer;
+
         /// <summary>
         /// 将指向某个位置的向量转化为欧拉角（-高低角，平面旋转角）表示
         /// </summary>
