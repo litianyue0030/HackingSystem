@@ -744,37 +744,31 @@ namespace HackingSystem.Dustbin
 
     class BuffSpeedLimitThrowSW : Buff
     {
-        public override BuffType buffType
-        {
-            get
-            {
-                return BuffType.debuff;
-            }
-        }
 
         public BuffSpeedLimitThrowSW(Bot source)
         {
-            this.source = source;
+            this.Source = source;
             BuffEndRule = new RuleTimeOver(2);
+            this.BuffType = BuffType.debuff;
         }
         float spd = 0.1f;
         float aspd = 0.45f;
 
         public override void Enter()
         {
-            source.Abilities.MoveSpeedRate *= spd;
+            Source.Abilities.MoveSpeedRate *= spd;
         }
 
         public override void Execute()
         {
-            source.Abilities.MoveSpeedRate /= spd;
+            Source.Abilities.MoveSpeedRate /= spd;
             spd += aspd * Time.deltaTime;
-            source.Abilities.MoveSpeedRate *= spd;
+            Source.Abilities.MoveSpeedRate *= spd;
         }
 
         public override void Exit()
         {
-            source.Abilities.MoveSpeedRate /= spd;
+            Source.Abilities.MoveSpeedRate /= spd;
         }
     }
 

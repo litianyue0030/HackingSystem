@@ -38,7 +38,6 @@ namespace HackingSystem
         public DamageEventArgs(int damage, T source, DamageMode damageMode, int HitValue, Vector3 AttackDiration, Vector3 AttackPosition, bool StrongGPImmuse, bool DamageRateImmuse, bool DownDamage)
         {
             h += hd;
-            h += hd;
             h(null, null);
             this.Damage = damage;
             this.source = source;
@@ -414,7 +413,6 @@ namespace HackingSystem
             buffSystem.owner = this;
             battleSystem = new BattleSystem(this);
             weaponSystem = new WeaponSystem(this);
-            battleSystem = new BattleSystem(this);
         }
 
         // Use this for initialization

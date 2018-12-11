@@ -76,12 +76,12 @@ namespace HackingSystem
         public void AddBuff(Buff B)
         {
             //重叠（施术者相同且Buff类型相同）
-            BuffType buffType = B.buffType;
+            BuffType buffType = B.BuffType;
             if (buffType == BuffType.buff)
             {
                 for (var node = buffs.First; node != null; node = node.Next)
                 {
-                    if (node.Value.GetType() == B.GetType() && node.Value.source == B.source)
+                    if (node.Value.GetType() == B.GetType() && node.Value.Source == B.Source)
                     {
                         if (node.Value.Level <= B.Level)
                         {
@@ -98,7 +98,7 @@ namespace HackingSystem
             {
                 for (var node = debuffs.First; node != null; node = node.Next)
                 {
-                    if (node.Value.GetType() == B.GetType() && node.Value.source == B.source)
+                    if (node.Value.GetType() == B.GetType() && node.Value.Source == B.Source)
                     {
                         if (node.Value.Level <= B.Level)
                         {
@@ -113,11 +113,11 @@ namespace HackingSystem
             }
 
             //增益还是减益
-            if (B.buffType == BuffType.buff)
+            if (B.BuffType == BuffType.buff)
             {
                 buffs.AddLast(B);
             }
-            else if (B.buffType == BuffType.debuff)
+            else if (B.BuffType == BuffType.debuff)
             {
                 debuffs.AddLast(B);
             }
@@ -131,11 +131,11 @@ namespace HackingSystem
         /// <param name="B">要添加的Buff</param>
         public void AddBuffMult(Buff B)
         {
-            if (B.buffType == BuffType.buff)
+            if (B.BuffType == BuffType.buff)
             {
                 buffs.AddLast(B);
             }
-            else if (B.buffType == BuffType.debuff)
+            else if (B.BuffType == BuffType.debuff)
             {
                 debuffs.AddLast(B);
             }
@@ -149,7 +149,7 @@ namespace HackingSystem
         /// <param name="B">要解除的Buff</param>
         public void BuffDecast(Buff B)
         {
-            switch (B.buffType)
+            switch (B.BuffType)
             {
                 case BuffType.buff:
                     if(buffs.Remove(B))
@@ -193,11 +193,11 @@ namespace HackingSystem
 
     public abstract class Buff
     {
-        public abstract BuffType buffType
+        public BuffType BuffType
         {
-            get;
+            get;set;
         }
-        public Bot source
+        public Bot Source
         {
             get;set;
         }

@@ -17,14 +17,7 @@ namespace HackingSystem
             this.Velocity = Velocity;
             a = Velocity / time;
             a.y = 0;
-        }
-
-        public override BuffType buffType
-        {
-            get
-            {
-                return BuffType.debuff;
-            }
+            this.BuffType = BuffType.debuff;
         }
 
         public override void Enter()
@@ -52,19 +45,14 @@ namespace HackingSystem
     public class BuffKnockOut : Buff
     {
         RuleTouchGround tg;
-        public override BuffType buffType
-        {
-            get
-            {
-                return BuffType.debuff;
-            }
-        }
+       
         Vector3 ve;
         public BuffKnockOut(Bot source,Vector3 Velocity)
         {
-            this.source = source;
+            this.Source = source;
             ve = Velocity;
             BuffEndRule = new RuleFalse();
+            this.BuffType = BuffType.debuff;
         }
 
         public override void Enter()
@@ -82,7 +70,7 @@ namespace HackingSystem
         {
             if (tg)
             {
-                Owner.AddBuff(new BuffDownGround(source));
+                Owner.AddBuff(new BuffDownGround(Source));
             }
 
             Owner.owner.Interrupt--;
@@ -94,17 +82,11 @@ namespace HackingSystem
     /// </summary>
     class BuffDownGround : Buff
     {
-        public override BuffType buffType
-        {
-            get
-            {
-                return BuffType.debuff;
-            }
-        }
 
         public BuffDownGround(Bot source)
         {
-            this.source = source;
+            this.Source = source;
+            this.BuffType = BuffType.debuff;
             BuffEndRule = new RuleTimeOver(1.2f);
         }
 

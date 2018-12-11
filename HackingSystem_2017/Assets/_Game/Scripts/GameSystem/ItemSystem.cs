@@ -229,14 +229,7 @@ namespace HackingSystem
             recovTick = 10;
             TRecovDeltaTime = RecovDeltaTime;
             BuffEndRule = new RuleTimeOver(totalTime);
-        }
-
-        public override BuffType buffType
-        {
-            get
-            {
-                return BuffType.buff;
-            }
+            this.BuffType = BuffType.buff;
         }
 
         public override void Enter()
