@@ -24,19 +24,16 @@ namespace LTY
 
         public override void Enter()
         {
-            Owner.owner.Interrupt++;
             Owner.owner.Abilities.MoveSpeedRate = m_moveSpeedRate;
         }
 
         public override void Execute()
         {
-
         }
 
         public override void Exit()
         {
             Owner.owner.Abilities.MoveSpeedRate = m_originalMoveSpeed;
-            Owner.owner.Interrupt--;
         }
     }
 }

@@ -22,22 +22,22 @@ namespace LTY
 
         public override void Enter()
         {
-            Owner.owner.Interrupt++;
             m_timer.SetExpiredTime(Time.time + 1);
         }
 
         public override void Execute()
         {
+            Debug.Log("Heat Excute");
             if (m_timer.IsExpired(Time.time))
             {
                 Owner.owner.Abilities.Heat.Value += m_heatDelta;
+                Debug.Log("Heat: " + Owner.owner.Abilities.Heat.Value);
                 m_timer.SetExpiredTime(Time.time + 1);
             }
         }
 
         public override void Exit()
         {
-            Owner.owner.Interrupt--;
         }
     }
 }

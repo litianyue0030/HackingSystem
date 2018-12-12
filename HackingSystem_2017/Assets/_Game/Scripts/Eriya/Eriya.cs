@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WJ;
+using WMC;
+using LTY;
 namespace HackingSystem.Eriya
 {
     public class Eriya : Bot
@@ -117,7 +120,7 @@ namespace HackingSystem.Eriya
             //MainWeapon = new MainWeaponDusbinTop();
             WeaponSystem.BallWeapon = new BallWeapon1();
 
-            eriyaMode = EriyaMode.Bot;
+            eriyaMode = EriyaMode.Hacking; 
             WeaponSystem.MainWeapon = new Dustbin.MainWeaponDusbinTop();
             WeaponSystem.SubWeapon = new Dustbin.SubWeaponDusbinTop();
             WeaponSystem.BackWeapon = new Dustbin.BackWeaponDusbinTop();
@@ -202,6 +205,31 @@ namespace HackingSystem.Eriya
                 }
             }
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.tag=="MoveBuff")
+            {
+                BuffSystem.AddBuff(new MoveSpeedBuff(null, 2f, BuffSystem, 1.5f, BuffType.buff));
+                Destroy(other.gameObject);
+            }
+            if(other.tag=="HeatBuff")
+            {
+                BuffSystem.AddBuff(new HeatBuff(null, 10f, BuffType.buff, BuffSystem, -2));
+                Destroy(other.gameObject);
+            }
+            if(other.tag=="MPBuff")
+            {
+                BuffSystem.AddBuff(new MPBuff(null, 10f, BuffType.buff, BuffSystem, 3));
+                Destroy(other.gameObject);
+            }
+            if(other.tag== "FreeFromInjuryBuff")
+            {
+                BuffSystem.AddBuff(new FreeFromInjuryBuff(null, 3f, BuffSystem));
+                Destroy(other.gameObject);
+            }
+        }
+
     }
 
     public enum EriyaMode
@@ -229,9 +257,12 @@ namespace HackingSystem.Eriya
 
         public override void initialization()
         {
-            List <Skill>  ballskills = new List <Skill> (2);
+            List <Skill>  ballskills = new List <Skill> ();
             ballskills.Add(new SkillBallHack());
             ballskills.Add(new SkillBallLaser());
+            ballskills.Add(new GrapplingHook());
+            ballskills.Add(new FlashSkill());
+            ballskills.Add(new ThroughWallSkill());
             for (int i = 0; i < ballskills.Count; i++)
             {
                 ballskills[i].owner = SkillSystem;
@@ -242,7 +273,10 @@ namespace HackingSystem.Eriya
         public override void Refresh()
         {
             if (((Eriya)Owner).eriyaMode == EriyaMode.Bot)
+            {
+                Debug.Log("Bot");
                 return;
+            }
             base.Refresh();
             if (Control.MainWPAttackLDown())
             {
@@ -251,6 +285,21 @@ namespace HackingSystem.Eriya
             if (Control.MainWPAttackRDown())
             {
                 SkillSystem.Cast(1);
+            }
+            if(Control.BackArrowDown())
+            {
+                //WJ's GrapplingHook Skill
+                SkillSystem.Cast(2);
+            }
+            if(Control.CoreArrowDown())
+            {
+                //WMC's Flash Skill
+                SkillSystem.Cast(3);
+            }
+            if(Control.ShiftHackDown())
+            {
+                //WMC's ThroughWallSkill
+                SkillSystem.Cast(4);
             }
         }
     }
@@ -261,7 +310,7 @@ namespace HackingSystem.Eriya
         public SkillBallLaser()
         {
             CurrentPhase = 0;
-            Debug.Log("hh");
+            //Debug.Log("hh");
             RuleCast = new RuleTimeOver(1.2f);
             RuleComplete = new RuleTrue();
             RuleEnd = new RuleTimeOver(0.3f);

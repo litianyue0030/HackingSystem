@@ -147,7 +147,7 @@ namespace HackingSystem.Dustbin
             if (((Eriya.Eriya)Owner).eriyaMode == Eriya.EriyaMode.Hacking)
             {
                 //动画初始化
-                ((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
+                //((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
             }
             a = Owner.Animator;
             foreach (var item in SkillSystem.skills)
@@ -808,7 +808,7 @@ namespace HackingSystem.Dustbin
             if (((Eriya.Eriya)Owner).eriyaMode == Eriya.EriyaMode.Hacking)
             {
                 //动画初始化
-                ((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
+                //((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
             }
         }
 

@@ -58,7 +58,7 @@ namespace HackingSystem
             di.x += RotateY;
             di.y += Rotate;
             di.x = (di.x + 180) % 360 - 180;
-            Debug.Log(di);
+            //Debug.Log(di);
             if (di.x>70f)
             {
                 di.x = 70f;

@@ -132,20 +132,30 @@ namespace HackingSystem
         private void DataInitialization()
         {
             
-            heat = new StatePoint(0, 100);
+            heat = new StatePoint(100, 100);
             power = 1;
             hp.OnValueChange += Hp_OnValueChange;
             heat.OnValueChange += Heat_OnValueChange;
+            mp.OnValueChange += Mp_OnValueChange;
         }
 
+        //float hpMinusTimer_Test = 0.5f;
         public void Refresh()
         {
             HeatMinusTime -= Time.deltaTime;
-            if (HeatMinusTime<=0)
+            if (HeatMinusTime <= 0 && heat.Value > 0)
             {
                 HeatMinusTime += 0.03f;
                 heat.Value--;
             }
+            /*TEST：持续掉血---用于免伤Buff测试*/
+            //hpMinusTimer_Test -= Time.deltaTime;
+            //if (hpMinusTimer_Test<=0f && hp.Value > 0)
+            //{
+            //    hpMinusTimer_Test += 0.5f;
+            //    hp.Value--;
+            //    Debug.Log("HP: " + hp.Value);
+            //}
         }
 
         private void Heat_OnValueChange(object sender, ValueChingingEventArgs<int> e)
@@ -162,6 +172,11 @@ namespace HackingSystem
             {
                 owner.OnLifeZero();
             }
+        }
+
+        private void Mp_OnValueChange(object sender, ValueChingingEventArgs<int> e)
+        {
+
         }
 
         public Abilities(Bot owner,int hp,int mp)

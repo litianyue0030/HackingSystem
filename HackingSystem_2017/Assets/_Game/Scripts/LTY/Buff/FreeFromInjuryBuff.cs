@@ -21,7 +21,6 @@ namespace LTY
 
         public override void Enter()
         {
-            Owner.owner.Interrupt++;
             Owner.owner.Abilities.HP.OnValueChange += HP_OnValueChange;
         }
 
@@ -33,7 +32,6 @@ namespace LTY
         public override void Exit()
         {
             Owner.owner.Abilities.HP.OnValueChange -= HP_OnValueChange;
-            Owner.owner.Interrupt--;
         }
 
         private void HP_OnValueChange(object sender, ValueChingingEventArgs<int> e)

@@ -25,7 +25,9 @@ namespace LTY
 
         public override void Enter()
         {
-            Owner.owner.Interrupt++;
+            /*--------------TEST--------------------*/
+            Owner.owner.Abilities.MP.Value = 0;
+            
             m_timer.SetExpiredTime(Time.time + 1);
         }
 
@@ -34,13 +36,13 @@ namespace LTY
             if (m_timer.IsExpired(Time.time))
             {
                 Owner.owner.Abilities.MP.Value += m_mpDelta;
+                Debug.Log("MP: " + Owner.owner.Abilities.MP.Value);
                 m_timer.SetExpiredTime(Time.time + 1);
             }
         }
 
         public override void Exit()
         {
-            Owner.owner.Interrupt--;
         }
     }
 }
