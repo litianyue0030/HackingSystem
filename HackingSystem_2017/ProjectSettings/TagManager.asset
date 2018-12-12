@@ -8,6 +8,9 @@ TagManager:
   - HeatBuff
   - MPBuff
   - FreeFromInjuryBuff
+  - terrain
+  - FlyerWindow
+  - CameraWindow
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Terrain
   - 
   - Wall
   - 
