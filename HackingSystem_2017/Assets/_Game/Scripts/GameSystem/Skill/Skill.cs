@@ -15,7 +15,7 @@ namespace HackingSystem
         public SkillSystem owner { get; set; }
         //HitDefend
 
-        //Enter,Execute,Complete,AfterComplete,Exit
+        //Enter,Casting,Complete,AfterComplete,Exit
         public abstract void Enter();
         public abstract void Casting();
         public abstract void Exit();

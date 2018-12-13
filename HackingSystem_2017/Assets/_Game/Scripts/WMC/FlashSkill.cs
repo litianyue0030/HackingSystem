@@ -53,9 +53,11 @@ namespace WMC
 
         public override void Enter()
         {
-            playerTransform = owner.owner.Owner.transform;
+            var player = owner.owner.Owner;
+            playerTransform = player.transform;
+            
             //anim.GetNextAnimatorClipInfo(0);
-            DisplacementWall(playerTransform,playerTransform.forward, layerMask);
+            DisplacementWall(playerTransform,player.Direction, layerMask);
         }
 
         public override void Exit()

@@ -15,7 +15,7 @@ namespace WMC
         private float canPenetrateDistance = 10f;
         [SerializeField]
         private LayerMask layerMask;
-        float radius = 0.5f;
+        float radius = .5f;
 
         public ThroughWallSkill()
         {

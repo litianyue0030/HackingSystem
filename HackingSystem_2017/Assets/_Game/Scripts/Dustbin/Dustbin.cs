@@ -147,7 +147,7 @@ namespace HackingSystem.Dustbin
             if (((Eriya.Eriya)Owner).eriyaMode == Eriya.EriyaMode.Hacking)
             {
                 //动画初始化
-                //((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
+                ((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
             }
             a = Owner.Animator;
             foreach (var item in SkillSystem.skills)
@@ -483,6 +483,7 @@ namespace HackingSystem.Dustbin
         private void Owner_OnBeingDamage(object sender, DamageEventArgs<Bot> e)
         {
             //受到正面攻击
+            
             if (!e.StrongGPImmuse && Vector3.Dot(e.AttackPosition - ((Bot)sender).transform.position, ((Bot)sender).Diration2) > 0)
             {
                 e.Damage -= 40;
@@ -808,7 +809,7 @@ namespace HackingSystem.Dustbin
             if (((Eriya.Eriya)Owner).eriyaMode == Eriya.EriyaMode.Hacking)
             {
                 //动画初始化
-                //((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
+                ((Eriya.Eriya)Owner).eriyaMode = Eriya.EriyaMode.Bot;
             }
         }
 

@@ -20,6 +20,7 @@ namespace LC
         private float bulletDamage;
         private float time;//根据时间判定射击距离  S=vt;
                            //初始化子弹伤害与存在时间
+
         void InitBullet()
         {
             switch (bulletType)
@@ -70,6 +71,7 @@ namespace LC
         {
             Debug.Log("I'm over");
         }
+
         //子弹消失的方法
         IEnumerator DelayDisable(float time)
         {

@@ -153,6 +153,7 @@ namespace LC
             {
                 bulletCount--;
                 GameObjectPool.GetInstance().MachineGunBulletInstantiate(machineGunBullet, firePos);
+                Debug.Log("Fire");
                 timer = 0;
             }
 
