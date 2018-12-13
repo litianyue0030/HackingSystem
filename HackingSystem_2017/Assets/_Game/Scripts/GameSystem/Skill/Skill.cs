@@ -12,10 +12,10 @@ namespace HackingSystem
         public virtual Animator anim { get; set; }
 
         //owner
-        public SkillSystem owner { get; set; }
+        public virtual SkillSystem owner { get; set; }
         //HitDefend
 
-        //Enter,Casting,Complete,AfterComplete,Exit
+        //Enter,Execute,Complete,AfterComplete,Exit
         public abstract void Enter();
         public abstract void Casting();
         public abstract void Exit();
