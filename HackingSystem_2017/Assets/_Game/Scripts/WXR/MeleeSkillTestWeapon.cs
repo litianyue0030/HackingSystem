@@ -15,7 +15,7 @@ namespace HackingSystem.Melee
 
         public MeleeDefendSkillTestWeapon() : base()
         {
-            List<Skill> skills = new List<Skill>(1);
+            List<Skill> skills = new List<Skill>();
             skills.Add(new MeleeDefendSkill());
 
             foreach (var item in skills)
@@ -88,6 +88,78 @@ namespace HackingSystem.Melee
 
         // Update is called once per frame
         void Update()
+        {
+
+        }
+    }
+
+    public class MeleeDumyMainWeapon : MainWeapon
+    {
+        public MeleeDumyMainWeapon() : base()
+        {
+            List<Skill> skills = new List<Skill>();
+
+            foreach (var item in skills)
+            {
+                item.owner = SkillSystem;
+            }
+            SkillSystem.skills = skills;
+        }
+
+        public override void dispose()
+        {
+            
+        }
+
+        public override void initialization()
+        {
+            
+        }
+    }
+
+    public class MeleeDumySubWeapon : SubWeapon
+    {
+        public MeleeDumySubWeapon() : base()
+        {
+            List<Skill> skills = new List<Skill>();
+
+            foreach (var item in skills)
+            {
+                item.owner = SkillSystem;
+            }
+            SkillSystem.skills = skills;
+        }
+
+        public override void dispose()
+        {
+
+        }
+
+        public override void initialization()
+        {
+
+        }
+    }
+
+    public class MeleeDumyBackWeapon : BackWeapon
+    {
+        public MeleeDumyBackWeapon() : base()
+        {
+            List<Skill> skills = new List<Skill>();
+
+            foreach (var item in skills)
+            {
+                item.owner = SkillSystem;
+            }
+            SkillSystem.skills = skills;
+        }
+
+        public override void dispose()
+        {
+
+        }
+
+        public override void initialization()
         {
 
         }

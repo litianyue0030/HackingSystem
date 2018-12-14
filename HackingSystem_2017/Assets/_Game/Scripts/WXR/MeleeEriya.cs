@@ -22,9 +22,9 @@ namespace HackingSystem.Melee
             WeaponSystem.BallWeapon = new MeleeDefendSkillTestWeapon();
 
             eriyaMode = EriyaMode.Hacking;
-            WeaponSystem.MainWeapon = new Dustbin.MainWeaponDusbinTop();
-            WeaponSystem.SubWeapon = new Dustbin.SubWeaponDusbinTop();
-            WeaponSystem.BackWeapon = new Dustbin.BackWeaponDusbinTop();
+            WeaponSystem.MainWeapon = new MeleeDumyMainWeapon();
+            WeaponSystem.SubWeapon = new MeleeDumySubWeapon();
+            WeaponSystem.BackWeapon = new MeleeDumyBackWeapon();
         }
     }
 }
