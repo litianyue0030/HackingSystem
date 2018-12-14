@@ -8,6 +8,8 @@ namespace HackingSystem.Melee
     /// <summary>
     /// 近战类技能：防御
     /// 使用时在面前形成一面圆形盾牌，可以阻挡或者减少穿过盾的伤害。
+    /// 
+    /// 同类技能：HackingSystem.Dustbin.SkillSheldMode
     /// </summary>
     public class MeleeDefendSkill : Skill
     {
@@ -61,7 +63,8 @@ namespace HackingSystem.Melee
 
         private void Owner_OnBeingDamage(object sender, DamageEventArgs<Bot> e)
         {
-            //受到和盾面夹角在保护半角范围内的攻击被认为穿过盾，伤害减少
+            // 受到和盾面夹角在保护半角范围内的攻击被认为穿过盾，伤害减少
+            // TODO: 以玩家中心为坐标计算点，如果攻击不同部位伤害不同，此处应修改成具体被攻击部位的坐标
             if (Vector3.Angle(e.AttackPosition - eriyaTrans.position, eriyaTrans.forward) < shieldAngle)
             {
                 e.Damage = (int)(e.Damage * damageDeclineRatio);
