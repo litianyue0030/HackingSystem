@@ -128,7 +128,7 @@ namespace HackingSystem.Eriya
             get; private set;
         }
 
-        public override void MoveFrame()
+        public override void MoveFrame(Vector3 MoveMessage)
         {
             //if (Control.UpArrowPress())
             //{
@@ -149,15 +149,20 @@ namespace HackingSystem.Eriya
             //{
             //    transform.Translate(Vector3.right * 0.1f, Space.Self);
             //}
+            /*
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
+            */
+            float h = MoveMessage.x;
+            float v = MoveMessage.z;
+
             Vector3 move = (v * cam.transform.forward + h * cam.transform.right);
             MovePv = move != Vector3.zero;
             move.y = 0;
             move.Normalize();
             Rigidbody rb = GetComponent<Rigidbody>();
             Vector3 vel = new Vector3(move.x * 5 * abilities.MoveSpeedRate * abilities.ActionRate, rb.velocity.y, move.z * 5 * abilities.MoveSpeedRate * abilities.ActionRate);
-            if (!OnAir && Control.JumpArrowDown())
+            if (!OnAir && MoveMessage.y > 0)
             {
                 vel.y = 15;
             }
@@ -211,16 +216,16 @@ namespace HackingSystem.Eriya
         Bot
     }
 
-    public class ActionMove:GameAction<Bot>
-    {
-        public override void Execute()
-        {
-            if (Executor.WeaponSystem.skillCasting == null)
-            {
-                Executor.MoveFrame();
-            }
-        }
-    }
+    //public class ActionMove:GameAction<Bot>
+    //{
+    //    public override void Execute()
+    //    {
+    //        if (Executor.WeaponSystem.skillCasting == null)
+    //        {
+    //            Executor.MoveFrame();
+    //        }
+    //    }
+    //}
 
     public class BallWeapon1 : BallWeapon
     {

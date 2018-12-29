@@ -81,7 +81,7 @@ namespace HackingSystem
             {
                 for (var node = buffs.First; node != null; node = node.Next)
                 {
-                    if (node.Value.GetType() == B.GetType() && node.Value.Source == B.Source)
+                    if (node.Value.BuffEquals(B))
                     {
                         if (node.Value.Level <= B.Level)
                         {
@@ -193,9 +193,16 @@ namespace HackingSystem
 
     public abstract class Buff
     {
+        public string BuffName;
+
+        public Buff()
+        {
+            BuffName = GetType().ToString();
+        }
+
         public BuffType BuffType
         {
-            get;set;
+            get;protected set;
         }
         public Bot Source
         {
@@ -212,6 +219,14 @@ namespace HackingSystem
         public abstract void Enter();
         public abstract void Execute();
         public abstract void Exit();
+
+        /// <summary>
+        /// 名字相同且施术者相同为相同的Buff
+        /// </summary>
+        public bool BuffEquals(Buff obj)
+        {
+            return obj.BuffName .Equals(BuffName) && Source == obj.Source;
+        }
 
         /// <summary>
         /// Buff覆盖等级，在重复Buff附加时，高等级的Buff会覆盖低等级的Buff，等级相同则新Buff覆盖旧Buff

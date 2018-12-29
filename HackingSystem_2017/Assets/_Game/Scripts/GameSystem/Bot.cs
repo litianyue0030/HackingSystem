@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 namespace HackingSystem
 {
     /// <summary>
@@ -293,11 +294,34 @@ namespace HackingSystem
             }
             set
             {
+                if (value<0)
+                {
+                    Debug.LogError("打断值不允许出现小于0的情况");
+                    return;
+                }
                 interrupt = value;
                 if (interrupt > 0)
                 {
                     weaponSystem.DecastSkill();
-
+                    if (actionOverControl!=null)
+                    {
+                        actionOverControl.Exit();
+                    }
+                    else if (action!=null)
+                    {
+                        action.Exit();
+                    }
+                }
+                else
+                {
+                    if (actionOverControl != null)
+                    {
+                        actionOverControl.Enter();
+                    }
+                    else if (action != null)
+                    {
+                        action.Enter();
+                    }
                 }
             }
         }
@@ -317,7 +341,8 @@ namespace HackingSystem
         /// <summary>
         /// 请在这里实现角色移动模块
         /// </summary>
-        public abstract void MoveFrame();
+        /// <param name="MoveMessage">角色的移动信息，以角色面向作为参考</param>
+        public abstract void MoveFrame(Vector3 MoveMessage);
         
         protected Abilities abilities;
 
@@ -389,16 +414,81 @@ namespace HackingSystem
             get { return action; }
             set
             {
-                if (action != null)
+                if (interrupt == 0)
                 {
-                    action.Exit();
-                }
-                if (value!=null)
-                {
-                    value.Executor = this;
-                    value.Enter();
+                    if (action != null)
+                    {
+                        action.Exit();
+                    }
+                    if (value != null)
+                    {
+                        value.Executor = this;
+                        value.Enter();
+                    }
+                    
                 }
                 action = value;
+            }
+        }
+
+        LinkedList<BuffOverControl> BuffOverControl;
+
+        GameAction<Bot> actionOverControl;
+        
+        /// <summary>
+        /// 玩家失去控制并覆盖新的控制行为时的行为
+        /// </summary>
+        public GameAction<Bot> ActionOverControl
+        {
+            get { return actionOverControl; }
+            private set
+            {
+                if (interrupt == 0)
+                {
+                    if (actionOverControl != null)
+                    {
+                        actionOverControl.Exit();
+                    }
+                    if (value != null)
+                    {
+                        weaponSystem.DecastSkill();
+                        if (action != null && actionOverControl == null)
+                        {
+                            //ActionOverControl出现时，原Action结束
+                            action.Exit();
+                        }
+                        value.Executor = this;
+                        value.Enter();
+                    }
+                    else
+                    {
+                        if (action != null && actionOverControl != null)
+                        {
+                            //ActionOverControl消失时，原Action开始
+                            action.Enter();
+                        }
+                    }
+                }
+                actionOverControl = value;
+            }
+        }
+
+        public void OverControlAdd(BuffOverControl overControlBuff)
+        {
+            BuffOverControl.AddLast(overControlBuff);
+            ActionOverControl = overControlBuff.OverControlAction;
+        }
+
+        public void OverControlRemove(BuffOverControl overControlBuff)
+        {
+            BuffOverControl.Remove(overControlBuff);
+            if (BuffOverControl.Count == 0)
+            {
+                ActionOverControl = null;
+            }
+            else if (ActionOverControl == overControlBuff.OverControlAction)
+            {
+                ActionOverControl = BuffOverControl.Last.Value.OverControlAction;
             }
         }
 
@@ -438,7 +528,11 @@ namespace HackingSystem
             //AI 
             if (Interrupt <= 0)
             {
-                if (action != null)
+                if (actionOverControl!=null)
+                {
+                    actionOverControl.Execute();
+                }
+                else if (action != null)
                 {
                     action.Execute();
                 }

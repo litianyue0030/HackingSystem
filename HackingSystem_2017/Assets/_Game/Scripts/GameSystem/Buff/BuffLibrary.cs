@@ -3,6 +3,7 @@ using UnityEditor;
 
 namespace HackingSystem
 {
+    #region 僵直相关
     /// <summary>
     /// 硬直带来的击退,不是击飞
     /// </summary>
@@ -11,7 +12,7 @@ namespace HackingSystem
         Vector3 Velocity;
         Vector3 a;
         Rigidbody rd;
-        public BuffKnockOver(Bot source,float time,Vector3 Velocity)
+        public BuffKnockOver(Bot source, float time, Vector3 Velocity)
         {
             BuffEndRule = new RuleTimeOver(time);
             this.Velocity = Velocity;
@@ -124,7 +125,6 @@ namespace HackingSystem
             Owner.owner.BattleSystem.OnBeingDamageBySkill -= Owner_OnBeingDamageBySkill;
         }
     }
-
     public class RuleTouchGround:ExecuteRule
     {
         Bot b;
@@ -137,4 +137,121 @@ namespace HackingSystem
             return !b.OnAir;
         }
     }
+
+    #endregion
+
+    #region 控制相关（基类框架）
+    /// <summary>
+    /// 失去控制，并且附加新的控制行为的buff,重复添加时，新行为会把旧行为覆盖
+    /// </summary>
+    public class BuffOverControl:Buff
+    {
+        /// <summary>
+        /// OverControl的行为,该行为拥有参数BuffOwner，该参数为行为的Buff持有者
+        /// </summary>
+        public GameAction<Bot> OverControlAction;
+
+        public BuffOverControl(string BuffName,GameAction<Bot> OverControlAction)
+        {
+            this.BuffName = BuffName;
+            this.OverControlAction = OverControlAction;
+            OverControlAction.ActionParams.Add("BuffOwner", this);
+        }
+
+        public override void Enter()
+        {
+            Owner.owner.OverControlAdd(this);
+        }
+
+        public override void Execute()
+        {
+        }
+
+        public override void Exit()
+        {
+            Owner.owner.OverControlRemove(this);
+        }
+    }
+
+    /// <summary>
+    /// 无法行动的Buff类型
+    /// </summary>
+    public class BuffStun : Buff
+    {
+        public override void Enter()
+        {
+            Owner.owner.Interrupt++;
+        }
+
+        public override void Execute()
+        {
+        }
+
+        public override void Exit()
+        {
+            Owner.owner.Interrupt--;
+        }
+    }
+    #endregion
+
+    #region 恐惧
+    /// <summary>
+    /// 恐惧行为,随机往后面跑
+    /// </summary>
+    public class ActionHorror:GameAction<Bot>
+    {
+        Vector2 ADirection;
+        public override void Enter()
+        {
+            BuffOverControl owner = (BuffOverControl)ActionParams["BuffOwner"];
+            Vector3 Direction = Executor.transform.position - owner.Source.transform.position;
+            Direction.y = 0;
+            float Eular = (Random.value - 0.5f) * 60;
+            ADirection = GameSystem.ConvertDirationTOEularAngles(Direction);
+            ADirection.y += Eular;
+            Executor.AngleDirection = ADirection;
+        }
+        public override void Execute()
+        {
+            Executor.MoveFrame(Vector3.forward);
+        }
+    }
+    public class BuffHorror : BuffOverControl
+    {
+        public BuffHorror(string BuffName) : base(BuffName, new ActionHorror())
+        {
+        }
+        public BuffHorror() : base("Horror", new ActionHorror())
+        {
+        }
+    }
+    #endregion
+
+    #region 魅惑
+    /// <summary>
+    /// 魅惑行为,往敌人跑
+    /// </summary>
+    public class ActionCharm : GameAction<Bot>
+    {
+        public override void Enter()
+        {
+            
+        }
+        public override void Execute()
+        {
+            Executor.Direction = ((BuffOverControl)ActionParams["BuffOwner"]).Source.transform.position - Executor.transform.position; ;
+            Executor.MoveFrame(Vector3.forward);
+        }
+    }
+    public class BuffCharm : BuffOverControl
+    {
+        public BuffCharm(string BuffName) : base(BuffName, new ActionCharm())
+        {
+        }
+        public BuffCharm() : base("Charm", new ActionCharm())
+        {
+        }
+    }
+
+    #endregion
 }

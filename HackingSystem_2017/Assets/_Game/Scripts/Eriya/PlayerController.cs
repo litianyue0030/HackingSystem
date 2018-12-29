@@ -86,7 +86,8 @@ namespace HackingSystem
             */
             if (Executor.WeaponSystem.skillCasting == null)
             {
-                Executor.MoveFrame();
+                Vector2 move = Control.GetMove();
+                Executor.MoveFrame(new Vector3(move.x, Control.JumpArrowDown() ? 1 : 0, move.y));
             }
             
             //this.transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))*Time.deltaTime);
