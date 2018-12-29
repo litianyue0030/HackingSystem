@@ -149,7 +149,7 @@ namespace LTY
         {
             get; private set;
         }
-        public override void MoveFrame()
+        public override void MoveFrame(Vector3 MoveMessage)
         {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
@@ -164,7 +164,6 @@ namespace LTY
                 vel.y = 15;
             }
             rb.velocity = vel;
-
         }
 
         public override void Initialzation()
@@ -258,13 +257,16 @@ namespace LTY
 
         public TestSubWeapon() : base()
         {
+            //该武器技能列表
             List<Skill> binskills = new List<Skill>();
+            //添加技能
             binskills.Add(new GrapplingHook());
-
+            //设置技能Owner,即SkillSystem,技能被技能系统持有
             foreach (var item in binskills)
             {
                 item.owner = SkillSystem;
             }
+            //将技能列表赋给SkillSystem
             SkillSystem.skills = binskills;
         }
 
@@ -278,22 +280,18 @@ namespace LTY
 
         }
 
-        public bool LeftPressed = false;
         public override void Refresh()
         {
             base.Refresh();
+            //判断当前角色是否被控制，0表示未被控制
             if (Owner.Interrupt == 0)
             {
+                //副武器攻击，鼠标左键按下时
                 if (Control.SubWPAttackLDown())
                 {
+                    //触发技能系统的第一个技能，即上文添加的“GrapplingHook”技能
                     SkillSystem.Cast(0);
-                    LeftPressed = false;
                 }
-                //if (Control.MainWPAttackRPress())
-                //{
-                //    SkillSystem.Cast(1);
-                //    LeftPressed = false;
-                //}
             }
         }
     }

@@ -37,9 +37,13 @@ namespace WJ {
 
         public GrapplingHook()
         {
+            //技能状态
             CurrentPhase = SkillActionPhase.InActive;
+            //技能发动的条件，在技能发动成功的时候重置
             RuleCast = new RuleTimeOver(ropePreTime);
+            //技能完成的条件，在技能释放的时候进行重置
             RuleComplete = new RuleTimeOver(ropePreTime);
+            //技能结束的条件，在技能完成的时候重置
             RuleEnd = new RuleTimeOver(transDur);
             grapplingShooterPrefab = Resources.Load<GameObject>("WJ/Grappling Shooter");
         }

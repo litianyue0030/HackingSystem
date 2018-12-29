@@ -256,9 +256,9 @@ namespace CXY
         {
 
         }
-        public override void MoveFrame()
+        public override void MoveFrame(Vector3 MoveMessage)
         {
-
+            
         }
         public override void Initialzation()
         {

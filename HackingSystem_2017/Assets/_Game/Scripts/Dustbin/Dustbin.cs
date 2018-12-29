@@ -71,10 +71,10 @@ namespace HackingSystem.Dustbin
             abilities.KnockBackDefend = 50000;
             weaponList.Add(new MainWeaponDusbinTop());
         }
-        
-        public override void MoveFrame()
-        {
 
+        public override void MoveFrame(Vector3 MoveMessage)
+        {
+            
         }
     }
 
